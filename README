@@ -1,0 +1,151 @@
+Mastermind Documentation:
+
+Mastermind is a Java Project, it runs fully on memory (there is no Database). It´s based on a eclipse grizzly maven archetype. The project contains two source folders, main (with the main code) and test (with the test code).
+To run it, import the project to your eclipse (“Or preferable Java IDE”), you must have Java 8, to run it. And the main class is br.com.vanhackathon.axiomzen.mastermind.Main.java
+
+
+BASE_URL: http://localhost:8080/mastermind
+
+Single Player New Game = http://localhost:8080/mastermind/new_game
+Expected Input:
+	{"user":"Frederico de Oliveira"}
+Expected Output:
+	{
+		"colors": ["R", "G", "B", "Y", "O", "P", "C", "M"],
+        	"code_lenght": 8,
+        	"num_guesses": 0,
+        	"game_key": -6694430348786103000,
+        	"solved": false,
+        	"past_results": []
+	}
+
+Single Player Attempts = http://localhost:8080/mastermind/guess
+Expected Input:
+        {"code":"RPYGOGOP", "game_key":-7102778788352059000}
+Expected Output:
+	When the users try a wrong code:
+	{
+		"colors":["R","G","B","Y","O","P","C","M"],
+		"code_lenght":8,
+		"num_guesses":1,
+		"game_key":"7424252183044059761",
+		"solved":false,
+		"past_results":[{
+					"exact":4,
+					"near":1,
+					"guess":"RPYGOGOP"
+				}],
+		"result_exact":4,
+		"result_near":1
+	}
+	
+	When user enter the right code:
+	{
+		"colors":["R","G","B","Y","O","P","C","M"],
+		"code_lenght":8,
+		"futher_instructions": "Solve the challenge to see this!"
+		"num_guesses":2,
+		"game_key":"7424252183044059761",
+		"solved":true,
+		"past_results":[{
+					"exact":4,
+					"near":1,
+					"guess":"RPYGOGOP"
+				},{
+					"exact":8,
+					"near":0,
+					"guess":"PPCGOOBP"
+				}],
+		"result_exact":8,
+		"result_near":0,
+		"time_taken":221.696,
+		"user":{
+				"user":"Frederico de Oliveira"
+			}
+	}
+Multi player New Game = http://localhost:8080/mastermind/multiplayer/new_game 
+Expected Input
+	First Player
+	{"user":"Frederico de Oliveira"}
+	Second, Third.... Players
+	{"user":"Patricia Lopes de Oliveira", "game_key":-6236715070714653300}
+Expected Output
+	{
+		"game_key": "-6236715070714653300",
+		"number_of_players": 1,
+		"last_game_key": "-6238367553931337429"
+	}
+
+Multi Player Attempts = http://localhost:8080/mastermind/multiplayer/guess
+Expected Input:
+	{
+		"multiplayer_game_key":"-7689603540985143403",
+		"attempt":{
+				"game_key":"-7750745445772259917",
+				"code":"RRRRRRRR"
+			}
+	}
+Expected Output:
+	When the user trys a wrong code:
+	{
+		"colors":["R","G","B","Y","O","P","C","M"],
+		"code_lenght":8,
+		"num_guesses":1,
+		"game_key":"-1300393007541049402",
+		"secret_code":["P","P","Y","R","R","G","G","O"],
+		"solved":false,
+		"past_results":[{
+					"exact":2,
+					"near":0,
+					"guess":"RRRRRRRR"
+				}],
+		"result_exact":2,
+		"result_near":0
+	}
+
+	When the user trys a right code:
+	{
+		"colors":["R","G","B","Y","O","P","C","M"],
+		"code_lenght":8,
+		"futher_instructions":"Fim de Jogo!",
+		"num_guesses":4,
+		"multiplayer_game_key":"-768218048430929373",
+		"solved":true,
+		"time_taken":78.264,
+		"winner_user":"Patricia Lopes de Oliveira",
+		"attempt_history":[{
+					"user":"Frederico de Oliveira",
+					"results":[{
+							"exact":1,
+							"near":0,
+							"guess":"RRRRRRRR"
+						},{
+							"exact":1,
+							"near":0,
+							"guess":"RRRRRRRR"
+						},{
+							"exact":1,
+							"near":0,
+							"guess":"RRRRRRRR"
+						}]
+				},{
+					"user":"Patricia Lopes de Oliveira",
+					"results":[{
+							"exact":1,
+							"near":3,
+							"guess":"PPPGRRMG"
+						},{
+							"exact":1,
+							"near":3,
+							"guess":"PPPGRRMG"
+						},{
+							"exact":1,
+							"near":3,
+							"guess":"PPPGRRMG"
+						},{
+							"exact":8,
+							"near":0,
+							"guess":"CCPMMCPR"
+						}]
+				}]
+	}
